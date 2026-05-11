@@ -6,13 +6,12 @@ resources:
       tasks:
         - task_key: Bronze-outbound
           notebook_task:
-            notebook_path: ../notebooks/AirFlights_Bronze
+            notebook_path: ../notebooks/AirFlights_Bronze.ipyn
             source: WORKSPACE
             base_parameters:
               catalog: ${var.catalog}
               bronze_schema: ${var.bronze_schema}
-          compute:
-            compute_type: serverless
+
           email_notifications:
             on_success: 
               - rana@ghazzi.com
@@ -23,13 +22,12 @@ resources:
           depends_on:
             - task_key: Bronze-outbound
           notebook_task:
-            notebook_path: ../notebooks/AirFlights-Bronze-Return
+            notebook_path: ../notebooks/AirFlights-Bronze-Return.ipynb
             source: WORKSPACE
             base_parameters:
               catalog: ${var.catalog}
               bronze_schema: ${var.bronze_schema}
-          compute:
-            compute_type: serverless
+
           email_notifications:
             on_success: 
               - rana@ghazzi.com
@@ -40,14 +38,13 @@ resources:
           depends_on:
             - task_key: Bronze-Return
           notebook_task:
-            notebook_path: ../notebooks/Airflights-Silver
+            notebook_path: ../notebooks/Airflights-Silver.ipyn
             source: WORKSPACE
             base_parameters:
               catalog: ${var.catalog}
               bronze_schema: ${var.bronze_schema}
               silver_schema: ${var.silver_schema}
-          compute:
-            compute_type: serverless
+
           email_notifications:
             on_success: 
               - rana@ghazzi.com
@@ -58,14 +55,13 @@ resources:
           depends_on:
             - task_key: Silver
           notebook_task:
-            notebook_path: ../notebooks/Airflights-Gold
+            notebook_path: ../notebooks/Airflights-Gold.ipyn
             source: WORKSPACE
             base_parameters:
               catalog: ${var.catalog}
               silver_schema: ${var.silver_schema}
               gold_schema: ${var.gold_schema}
-          compute:
-            compute_type: serverless
+
           email_notifications:
             on_success: 
               - rana@ghazzi.com

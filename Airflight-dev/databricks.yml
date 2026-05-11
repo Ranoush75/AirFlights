@@ -5,7 +5,7 @@ bundle:
 include:
   - resources/jobs/*.yml
   - resources/pipelines/*.yml
-  - resources/notebooks/*.py
+  - resources/notebooks/*.ipynb 
 
 variables:
   catalog:
@@ -36,7 +36,7 @@ targets:
     default: false
     workspace:
       host: https://dbc-c96a283d-ad26.cloud.databricks.com
-    root_path: /Users/rana@ghazzi.com/.bundle/${bundle.name}/${bundle.target}
+
     run_as:
       user_name: rana@ghazzi.com
     permissions:
