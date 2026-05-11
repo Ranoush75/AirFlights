@@ -1,0 +1,76 @@
+resources:
+  jobs:
+    AirFlights_ETL_Pipeline:
+      name: AirFlights_ETL_Pipeline
+      
+      tasks:
+        - task_key: Bronze-outbound
+          notebook_task:
+            notebook_path: ../notebooks/AirFlights_Bronze
+            source: WORKSPACE
+            base_parameters:
+              catalog: ${var.catalog}
+              bronze_schema: ${var.bronze_schema}
+          compute:
+            compute_type: serverless
+          email_notifications:
+            on_success: 
+              - rana@ghazzi.com
+            on_failure: 
+              - rana@ghazzi.com
+            
+        - task_key: Bronze-Return
+          depends_on:
+            - task_key: Bronze-outbound
+          notebook_task:
+            notebook_path: ../notebooks/AirFlights-Bronze-Return
+            source: WORKSPACE
+            base_parameters:
+              catalog: ${var.catalog}
+              bronze_schema: ${var.bronze_schema}
+          compute:
+            compute_type: serverless
+          email_notifications:
+            on_success: 
+              - rana@ghazzi.com
+            on_failure: 
+              - rana@ghazzi.com
+            
+        - task_key: Silver
+          depends_on:
+            - task_key: Bronze-Return
+          notebook_task:
+            notebook_path: ../notebooks/Airflights-Silver
+            source: WORKSPACE
+            base_parameters:
+              catalog: ${var.catalog}
+              bronze_schema: ${var.bronze_schema}
+              silver_schema: ${var.silver_schema}
+          compute:
+            compute_type: serverless
+          email_notifications:
+            on_success: 
+              - rana@ghazzi.com
+            on_failure: 
+              - rana@ghazzi.com
+            
+        - task_key: Gold
+          depends_on:
+            - task_key: Silver
+          notebook_task:
+            notebook_path: ../notebooks/Airflights-Gold
+            source: WORKSPACE
+            base_parameters:
+              catalog: ${var.catalog}
+              silver_schema: ${var.silver_schema}
+              gold_schema: ${var.gold_schema}
+          compute:
+            compute_type: serverless
+          email_notifications:
+            on_success: 
+              - rana@ghazzi.com
+            on_failure: 
+              - rana@ghazzi.com
+      
+      queue:
+        enabled: true
