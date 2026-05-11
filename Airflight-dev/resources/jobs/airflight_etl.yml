@@ -11,7 +11,6 @@ resources:
             base_parameters:
               catalog: ${var.catalog}
               bronze_schema: ${var.bronze_schema}
-
           email_notifications:
             on_success: 
               - rana@ghazzi.com
@@ -27,7 +26,6 @@ resources:
             base_parameters:
               catalog: ${var.catalog}
               bronze_schema: ${var.bronze_schema}
-
           email_notifications:
             on_success: 
               - rana@ghazzi.com
@@ -38,13 +36,12 @@ resources:
           depends_on:
             - task_key: Bronze-Return
           notebook_task:
-            notebook_path: ../notebooks/Airflights-Silver..ipynb
+            notebook_path: ../notebooks/Airflights-Silver.ipynb  # ✅ Fixed
             source: WORKSPACE
             base_parameters:
               catalog: ${var.catalog}
               bronze_schema: ${var.bronze_schema}
               silver_schema: ${var.silver_schema}
-
           email_notifications:
             on_success: 
               - rana@ghazzi.com
@@ -55,13 +52,12 @@ resources:
           depends_on:
             - task_key: Silver
           notebook_task:
-            notebook_path: ../notebooks/Airflights-Gold..ipynb
+            notebook_path: ../notebooks/Airflights-Gold.ipynb  # ✅ Fixed
             source: WORKSPACE
             base_parameters:
               catalog: ${var.catalog}
               silver_schema: ${var.silver_schema}
               gold_schema: ${var.gold_schema}
-
           email_notifications:
             on_success: 
               - rana@ghazzi.com
